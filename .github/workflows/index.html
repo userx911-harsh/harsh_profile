@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Matrimonial Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --blush: #F2E8DE;
+    --rose-gold: #C9967A;
+    --rose-dark: #9E6448;
+    --text-primary: #2C1A0E;
+    --text-secondary: #6B4A35;
+    --text-muted: #A07860;
+    --border: #E8D9CC;
+    --gold: #C4975A;
+    --gold-light: #E8D5B0;
+    --section-bg: #FDF8F4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text-primary);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--rose-dark);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--text-secondary); font-weight: 400;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--rose-gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 60px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 80px 60px 80px 80px;
+    background: var(--warm-white);
+  }
+  .hero-tag {
+    font-size: 11px; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--rose-gold);
+    font-weight: 400; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--rose-gold);
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 88px); font-weight: 300;
+    line-height: 1.05; color: var(--text-primary); margin-bottom: 8px;
+  }
+  .hero-name em { font-style: italic; color: var(--rose-dark); }
+  .hero-subtitle {
+    font-size: 13px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--text-muted);
+    font-weight: 400; margin-bottom: 32px;
+  }
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, var(--rose-gold), transparent);
+    margin-bottom: 32px;
+  }
+  .hero-intro {
+    font-size: 16px; color: var(--text-secondary);
+    max-width: 440px; line-height: 1.8; margin-bottom: 44px;
+  }
+  .hero-quick-stats {
+    display: flex; gap: 40px;
+    border-top: 1px solid var(--border);
+    padding-top: 32px; width: 100%;
+  }
+  .stat-item { text-align: left; }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400;
+    color: var(--text-primary); display: block;
+  }
+  .stat-label {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted); font-weight: 400;
+  }
+
+  /* ── HERO RIGHT — photo area ── */
+  .hero-right {
+    position: relative; background: var(--blush);
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  .photo-frame-main {
+    position: relative; width: 340px; height: 420px; z-index: 2;
+  }
+  .photo-frame-main::before {
+    content: ''; position: absolute; inset: -16px;
+    border: 1px solid var(--rose-gold); opacity: 0.5;
+    pointer-events: none; z-index: 3;
+  }
+  .photo-frame-main::after {
+    content: ''; position: absolute; inset: -8px;
+    border: 1px solid var(--gold-light);
+    pointer-events: none; z-index: 3;
+  }
+  .photo-main {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .photo-frame-accent {
+    position: absolute; width: 160px; height: 200px;
+    bottom: 60px; right: 20px; z-index: 4;
+    border: 6px solid var(--warm-white);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .photo-frame-accent::before {
+    content: ''; position: absolute; inset: -12px;
+    border: 1px solid var(--gold); opacity: 0.6;
+    pointer-events: none;
+  }
+  .photo-accent {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 80px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 24px; margin-bottom: 56px;
+  }
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px; font-weight: 300;
+    color: var(--gold-light); line-height: 1; user-select: none;
+  }
+  .section-title-group { flex: 1; }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--rose-gold);
+    font-weight: 400; margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 400;
+    color: var(--text-primary); line-height: 1.1;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--warm-white); }
+
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+  .ornament {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; color: var(--rose-gold);
+    opacity: 0.4; letter-spacing: 8px;
+    margin: 0 0 40px; user-select: none;
+  }
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300;
+    line-height: 1.8; color: var(--text-secondary); font-style: italic;
+  }
+  .about-details {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 1px solid var(--border);
+  }
+  .detail-item {
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-item:nth-child(2n) { border-right: none; }
+  .detail-item:nth-last-child(-n+2) { border-bottom: none; }
+  .detail-label {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 4px; font-weight: 400;
+  }
+  .detail-value {
+    font-size: 16px; color: var(--text-primary); font-weight: 400;
+  }
+
+  /* ── PHOTOS ── */
+  #photos { background: var(--cream); }
+
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: 16px;
+  }
+  .gallery-item { position: relative; overflow: hidden; }
+  .gallery-item:first-child { grid-row: 1 / 3; }
+  .gallery-frame {
+    width: 100%; height: 100%;
+    background: var(--blush);
+    position: relative; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .gallery-frame img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .frame-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 10px 14px;
+    background: rgba(44,26,14,0.45);
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+  .frame-style-1::before {
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid rgba(201,150,122,0.4);
+    pointer-events: none; z-index: 2;
+  }
+  .frame-style-2::before {
+    content: ''; position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    pointer-events: none; z-index: 2;
+  }
+  .frame-style-3::before {
+    content: ''; position: absolute; inset: 0;
+    box-shadow: inset 0 0 0 8px var(--warm-white),
+                inset 0 0 0 9px var(--border);
+    pointer-events: none; z-index: 2;
+  }
+
+  /* ── FAMILY ── */
+  #family { background: var(--section-bg); }
+
+  .family-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .family-card {
+    border: 1px solid var(--border);
+    background: var(--warm-white); padding: 32px;
+    transition: border-color 0.3s; position: relative;
+  }
+  .family-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--rose-gold); opacity: 0; transition: opacity 0.3s;
+  }
+  .family-card:hover::before { opacity: 1; }
+  .family-card:hover { border-color: transparent; }
+  .family-relation {
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--rose-gold);
+    margin-bottom: 8px; font-weight: 400;
+  }
+  .family-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--text-primary); margin-bottom: 4px;
+  }
+  .family-desc { font-size: 14px; color: var(--text-muted); }
+
+  /* ── INTERESTS ── */
+  #interests { background: var(--warm-white); }
+
+  .interests-layout { display: flex; flex-direction: column; gap: 56px; }
+
+  .interests-quote {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+    padding: 48px; background: var(--cream);
+    border: 1px solid var(--border); position: relative;
+  }
+  .interests-quote::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px; color: var(--gold-light);
+    position: absolute; top: -20px; left: 32px;
+    line-height: 1; pointer-events: none;
+  }
+  .interests-quote blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; font-style: italic;
+    line-height: 1.5; color: var(--text-secondary);
+    padding-left: 8px; position: relative; z-index: 1;
+  }
+  .interests-quote-right {
+    border-left: 1px solid var(--border); padding-left: 60px;
+  }
+  .interests-quote cite {
+    display: block; margin-top: 20px;
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--text-muted); font-style: normal;
+  }
+  .quote-ornament {
+    font-size: 13px; letter-spacing: 6px;
+    color: var(--rose-gold); margin-bottom: 12px; display: block;
+  }
+  .quote-desc { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
+
+  .interests-bottom {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: start;
+  }
+  .interests-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 9px 18px;
+    border: 1px solid var(--border); color: var(--text-secondary);
+    font-weight: 400; background: transparent;
+    font-family: 'Jost', sans-serif;
+  }
+  .tag.active {
+    background: var(--rose-gold);
+    border-color: var(--rose-gold); color: var(--warm-white);
+  }
+  .interests-description {
+    font-size: 16px; color: var(--text-secondary);
+    line-height: 1.9; border-left: 2px solid var(--rose-gold);
+    padding-left: 24px;
+  }
+
+  /* ── PARTNER ── */
+  #partner { background: var(--blush); }
+
+  .partner-content {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .partner-wishlist { list-style: none; }
+  .partner-wishlist li {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--border);
+    font-size: 15px; color: var(--text-secondary);
+  }
+  .partner-wishlist li::before {
+    content: '◆'; font-size: 8px; color: var(--rose-gold);
+    margin-top: 6px; flex-shrink: 0;
+  }
+  .partner-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; font-style: italic;
+    line-height: 1.5; color: var(--text-primary);
+  }
+  .partner-note-author {
+    margin-top: 20px; font-family: 'Jost', sans-serif;
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--text-primary); color: var(--warm-white);
+    text-align: center; padding: 100px 80px;
+  }
+  #contact .section-title { color: var(--gold-light); }
+  #contact .section-eyebrow { color: var(--rose-gold); }
+  #contact .section-number { color: rgba(255,255,255,0.05); }
+  #contact .section-line { background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    max-width: 900px; margin: 0 auto 60px;
+  }
+  .contact-item { background: var(--text-primary); padding: 40px 24px; text-align: center; }
+  .contact-icon { font-size: 22px; color: var(--rose-gold); margin-bottom: 12px; }
+  .contact-label {
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+    margin-bottom: 8px; font-weight: 400;
+  }
+  .contact-value {
+    font-size: 15px; font-weight: 400; color: rgba(255,255,255,0.85);
+    text-decoration: none; display: block;
+  }
+  .contact-value.link:hover { color: var(--rose-gold); }
+  .contact-footer {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-style: italic;
+    color: rgba(255,255,255,0.3); letter-spacing: 2px;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── TABLET  (≤1024px) ── */
+  @media (max-width: 1024px) {
+    .hero-left { padding: 60px 40px 60px 40px; }
+    section { padding: 80px 40px; }
+    #contact { padding: 80px 40px; }
+    .about-grid { gap: 48px; }
+    .family-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .contact-grid { max-width: 100%; }
+    .interests-quote { padding: 36px; gap: 40px; }
+    .interests-quote-right { padding-left: 40px; }
+    .photo-frame-main { width: 280px; height: 360px; }
+    .photo-frame-accent { width: 130px; height: 160px; right: 12px; bottom: 40px; }
+  }
+
+  /* ── MOBILE (≤768px) ── */
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 0 20px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-brand { font-size: 17px; }
+
+    /* Hero — stack vertically, photo on top */
+    .hero {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      min-height: auto;
+      padding-top: 52px;
+    }
+    .hero-right {
+      order: -1;
+      height: 62vw;
+      min-height: 260px;
+      max-height: 380px;
+    }
+    .photo-frame-main {
+      width: min(60vw, 220px);
+      height: min(74vw, 280px);
+    }
+    .photo-frame-accent {
+      width: min(28vw, 100px);
+      height: min(35vw, 130px);
+      right: 10px; bottom: 20px;
+      border-width: 4px;
+    }
+    .hero-left {
+      padding: 36px 20px 48px;
+      align-items: flex-start;
+    }
+    .hero-name { font-size: clamp(38px, 10vw, 58px); }
+    .hero-subtitle { font-size: 11px; letter-spacing: 2px; }
+    .hero-intro { font-size: 15px; margin-bottom: 32px; max-width: 100%; }
+    .hero-quick-stats {
+      flex-wrap: wrap; gap: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .stat-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item:nth-child(odd) { border-right: 1px solid var(--border); padding-right: 16px; }
+    .stat-item:nth-child(even) { padding-left: 16px; }
+    .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+    .stat-value { font-size: 22px; }
+
+    /* Sections */
+    section { padding: 56px 20px; }
+    #contact { padding: 56px 20px; }
+
+    /* Section header */
+    .section-header { gap: 12px; margin-bottom: 36px; }
+    .section-number { font-size: 52px; }
+    .section-title { font-size: 32px; }
+    .section-line { display: none; }
+
+    /* About */
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .about-text { font-size: 18px; }
+    .about-details { grid-template-columns: 1fr 1fr; }
+    .detail-item { padding: 14px 14px; }
+    .detail-value { font-size: 14px; }
+
+    /* Gallery — single column with fixed heights */
+    .photo-gallery {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      gap: 12px;
+    }
+    .gallery-item { height: 260px; }
+    .gallery-item:first-child { grid-row: auto; height: 320px; }
+
+    /* Family */
+    .family-grid { grid-template-columns: 1fr; gap: 12px; }
+    .family-card { padding: 20px; }
+    .family-name { font-size: 18px; }
+
+    /* Interests */
+    .interests-layout { gap: 32px; }
+    .interests-quote {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 28px 20px;
+    }
+    .interests-quote::before { font-size: 100px; top: -12px; left: 16px; }
+    .interests-quote blockquote { font-size: 20px; }
+    .interests-quote-right {
+      border-left: none; padding-left: 0;
+      border-top: 1px solid var(--border); padding-top: 20px;
+    }
+    .interests-bottom { grid-template-columns: 1fr; gap: 28px; }
+    .tag { padding: 8px 14px; font-size: 10px; }
+    .interests-description { font-size: 15px; padding-left: 16px; }
+
+    /* Partner */
+    .partner-content { grid-template-columns: 1fr; gap: 36px; }
+    .partner-note { font-size: 22px; }
+    .partner-wishlist li { font-size: 14px; padding: 12px 0; }
+
+    /* Contact — single column stack */
+    .contact-grid {
+      grid-template-columns: 1fr;
+      max-width: 360px;
+      margin: 0 auto 40px;
+    }
+    .contact-item { padding: 28px 20px; }
+    .contact-value { font-size: 14px; word-break: break-all; }
+  }
+
+  /* ── SMALL PHONE (≤380px) ── */
+  @media (max-width: 380px) {
+    .hero-name { font-size: 36px; }
+    .about-details { grid-template-columns: 1fr; }
+    .detail-item:nth-child(2n) { border-right: none; }
+    .detail-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+    .detail-item:last-child { border-bottom: none; }
+    section { padding: 44px 16px; }
+    #contact { padding: 44px 16px; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    nav { display: none; }
+    section { padding: 40px; }
+    .hero { min-height: auto; grid-template-columns: 1fr 1fr; }
+    .fade-up { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Your Name</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#photos">Gallery</a></li>
+    <li><a href="#family">Family</a></li>
+    <li><a href="#interests">Interests</a></li>
+    <li><a href="#partner">Partner</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Matrimonial Profile</p>
+    <h1 class="hero-name">
+      <em>Your</em><br>
+      <span>Full Name</span>
+    </h1>
+    <p class="hero-subtitle">26 Years · Hindu · Vadodara</p>
+    <div class="hero-divider"></div>
+    <p class="hero-intro">
+      A warm-hearted, family-oriented individual with a grounded outlook on life. I believe in building a relationship rooted in mutual respect, trust, and shared dreams.
+    </p>
+    <div class="hero-quick-stats">
+      <div class="stat-item">
+        <span class="stat-value">5'6"</span>
+        <span class="stat-label">Height</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">B.Tech</span>
+        <span class="stat-label">Education</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">IT</span>
+        <span class="stat-label">Profession</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">2026</span>
+        <span class="stat-label">Ready</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="photo-frame-main">
+      <!-- Replace src with your main photo path -->
+      <img class="photo-main" src="my_pic.jpeg" alt="Profile Photo">
+    </div>
+    <div class="photo-frame-accent">
+      <!-- Replace src with your second photo path -->
+      <img class="photo-accent" src="my_pic.jpeg" alt="Photo">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header fade-up">
+    <span class="section-number">01</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">Personal Details</p>
+      <h2 class="section-title">About Me</h2>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="about-grid fade-up">
+    <div>
+      <div class="ornament">◆ ◆ ◆</div>
+      <p class="about-text">
+        "I am someone who finds joy in the simple things — morning chai, family dinners, and honest conversations. My roots are deeply tied to my culture, yet I carry an open mind toward the future we could build together."
+      </p>
+    </div>
+
+    <div class="about-details">
+      <div class="detail-item">
+        <p class="detail-label">Date of Birth</p>
+        <p class="detail-value">15 March 1998</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Time of Birth</p>
+        <p class="detail-value">10:30 AM</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Place of Birth</p>
+        <p class="detail-value">Vadodara, Gujarat</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Blood Group</p>
+        <p class="detail-value">B+</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Religion</p>
+        <p class="detail-value">Hindu</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Caste / Gotra</p>
+        <p class="detail-value">Brahmin / Kashyap</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Mother Tongue</p>
+        <p class="detail-value">Gujarati</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Complexion</p>
+        <p class="detail-value">Fair</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Height / Weight</p>
+        <p class="detail-value">5'6" / 58 kg</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Manglik</p>
+        <p class="detail-value">Non-Manglik</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Qualification</p>
+        <p class="detail-value">B.Tech (Computer Sci.)</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Annual Income</p>
+        <p class="detail-value">&#8377;8 LPA</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOS GALLERY -->
+<section id="photos">
+  <div class="section-header fade-up">
+    <span class="section-number">02</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">A Glimpse Of Me</p>
+      <h2 class="section-title">Photo Gallery</h2>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="photo-gallery fade-up">
+    <div class="gallery-item">
+      <div class="gallery-frame frame-style-1">
+        <!-- Replace src with your photo path -->
+        <img src="photos/gallery-1.jpg" alt="Portrait">
+        <p class="frame-label">Portrait</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-frame frame-style-2">
+        <img src="photos/gallery-2.jpg" alt="Casual">
+        <p class="frame-label">Casual</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-frame frame-style-3">
+        <img src="photos/gallery-3.jpg" alt="Traditional">
+        <p class="frame-label">Traditional</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-frame frame-style-2">
+        <img src="photos/gallery-4.jpg" alt="With Family">
+        <p class="frame-label">With Family</p>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-frame frame-style-1">
+        <img src="photos/gallery-5.jpg" alt="Candid">
+        <p class="frame-label">Candid</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY -->
+<section id="family">
+  <div class="section-header fade-up">
+    <span class="section-number">03</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">My Roots</p>
+      <h2 class="section-title">Family Details</h2>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="family-grid fade-up">
+    <div class="family-card">
+      <p class="family-relation">Father</p>
+      <p class="family-name">Rajesh Kumar Sharma</p>
+      <p class="family-desc">Retired Govt. Officer</p>
+    </div>
+    <div class="family-card">
+      <p class="family-relation">Mother</p>
+      <p class="family-name">Sunita Sharma</p>
+      <p class="family-desc">Homemaker</p>
+    </div>
+    <div class="family-card">
+      <p class="family-relation">Sibling</p>
+      <p class="family-name">Rohan Sharma (Younger)</p>
+      <p class="family-desc">B.Com, Studying</p>
+    </div>
+    <div class="family-card">
+      <p class="family-relation">Paternal</p>
+      <p class="family-name">Dada-Dadi (Vadodara)</p>
+      <p class="family-desc">Joint Family, Business</p>
+    </div>
+    <div class="family-card">
+      <p class="family-relation">Maternal</p>
+      <p class="family-name">Nana-Nani (Ahmedabad)</p>
+      <p class="family-desc">Well-settled, Joint Family</p>
+    </div>
+    <div class="family-card">
+      <p class="family-relation">Family Status</p>
+      <p class="family-name">Upper Middle Class</p>
+      <p class="family-desc">Traditional, Values-Oriented</p>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section id="interests">
+  <div class="section-header fade-up">
+    <span class="section-number">04</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">What I Love</p>
+      <h2 class="section-title">Interests &amp; Hobbies</h2>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="interests-layout fade-up">
+    <div class="interests-quote">
+      <blockquote>
+        "Life is better when shared with someone who understands your silence."
+      </blockquote>
+      <div class="interests-quote-right">
+        <span class="quote-ornament">◆ ◆ ◆</span>
+        <p class="quote-desc">
+          A line that defines how I see companionship — not just in the noise of life, but in its quiet moments too.
+        </p>
+        <cite>— Personal Motto</cite>
+      </div>
+    </div>
+
+    <div class="interests-bottom">
+      <div class="interests-tags">
+        <span class="tag active">Classical Music</span>
+        <span class="tag">Cooking</span>
+        <span class="tag active">Travelling</span>
+        <span class="tag">Reading</span>
+        <span class="tag active">Yoga &amp; Fitness</span>
+        <span class="tag">Photography</span>
+        <span class="tag">Art &amp; Culture</span>
+        <span class="tag">Cricket</span>
+        <span class="tag active">Movies</span>
+        <span class="tag">Trekking</span>
+        <span class="tag">Dancing</span>
+        <span class="tag">Volunteering</span>
+      </div>
+
+      <p class="interests-description">
+        When I'm not at work, you'll find me lost in a good book, experimenting in the kitchen, or exploring new places. I practice yoga every morning — it keeps me grounded. I love attending cultural events, classical concerts, and family gatherings. Travel is my biggest passion; I believe every destination teaches something new about life and oneself.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER EXPECTATIONS -->
+<section id="partner">
+  <div class="section-header fade-up">
+    <span class="section-number">05</span>
+    <div class="section-title-group">
+      <p class="section-eyebrow">My Expectations</p>
+      <h2 class="section-title">Partner Preference</h2>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="partner-content fade-up">
+    <ul class="partner-wishlist">
+      <li>Age between 26 – 32 years</li>
+      <li>Well-educated and professionally settled</li>
+      <li>Family-oriented with good values</li>
+      <li>Respectful toward elders and loved ones</li>
+      <li>Open to joint or nuclear family setup</li>
+      <li>Emotionally mature and grounded</li>
+      <li>Caste no bar — character matters more</li>
+      <li>From Gujarat or willing to settle in Gujarat</li>
+    </ul>
+
+    <div>
+      <p class="partner-note">
+        "I am not looking for perfection — I am looking for someone real. Someone who will laugh with me, grow with me, and face the world with me as a partner and a friend."
+      </p>
+      <p class="partner-note-author">— A note to my future partner</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-up" style="justify-content:center;text-align:center;flex-direction:column;gap:12px;">
+    <p class="section-eyebrow">Get In Touch</p>
+    <h2 class="section-title">Contact Details</h2>
+    <div class="ornament" style="color:rgba(255,255,255,0.15);font-size:16px;">◆ ◆ ◆</div>
+  </div>
+
+  <div class="contact-grid fade-up">
+    <div class="contact-item">
+      <div class="contact-icon">✆</div>
+      <p class="contact-label">Phone</p>
+      <p class="contact-value">+91 98765 43210</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">✉</div>
+      <p class="contact-label">Email</p>
+      <p class="contact-value">yourname@email.com</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">&#x2318;</div>
+      <p class="contact-label">Instagram</p>
+      <!-- Replace href with your actual Instagram URL -->
+      <a class="contact-value link" href="https://instagram.com/yourusername" target="_blank">@yourusername</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">⌂</div>
+      <p class="contact-label">Location</p>
+      <p class="contact-value">Vadodara, Gujarat</p>
+    </div>
+  </div>
+
+  <p class="contact-footer">All enquiries are treated with complete privacy and respect.</p>
+</section>
+
+<script>
+  /* ── SCROLL ANIMATIONS ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ── ACTIVE NAV ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--rose-gold)' : '';
+    });
+  });
+</script>
+</body>
+</html>
